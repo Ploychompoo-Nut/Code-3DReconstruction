@@ -371,8 +371,6 @@ def predict(model, image_dir, save_path, args):
     model.eval()
     file = read_file_from_txt(image_dir)
     file_num = len(file)
-    # # Prepare map_kernel once
-    # map_kernel = prepare_map_kernel(args.ROI_shape)
 
     for t in range(file_num):
         image_path = file[t]
@@ -385,11 +383,11 @@ def predict(model, image_dir, save_path, args):
 
         name = image_path[image_path.rfind("/") + 1 :]
         mean, std = np.load(args.root_dir + args.Te_Meanstd_name)
-        image = (image - mean) / std##归一化图像：使用预先计算的均值和标准差归一化图像数据。
+        image = (image - mean) / std
         z, y, x = image.shape
-        z_old, y_old, x_old = z, y, x#记录原始尺寸：存储原始的图像尺寸用于最后的裁剪
+        z_old, y_old, x_old = z, y, x
 
-        if args.ROI_shape[0] > z:#尺寸调整：确保图像的深度（z）、高度（y）和宽度（x）至少与 ROI 形状相匹配。
+        if args.ROI_shape[0] > z:
             z = args.ROI_shape[0]
             image = reshape_img(image, z, y, x)
         if args.ROI_shape[1] > y:
@@ -399,24 +397,11 @@ def predict(model, image_dir, save_path, args):
             x = args.ROI_shape[2]
             image = reshape_img(image, z, y, x)
 
-        predict = np.zeros([1, args.n_classes, z, y, x], dtype=np.float32)#为预测结果和对应的权重映射初始化全零数组。
+        predict = np.zeros([1, args.n_classes, z, y, x], dtype=np.float32)
         n_map = np.zeros([1, args.n_classes, z, y, x], dtype=np.float32)
 
-        """
-        Our prediction is carried out using sliding patches,
-        and for each patch a corresponding result is predicted,
-        and for the part where the patches overlap,
-        we use weight <map_kernel> balance,
-        and we agree that the closer to the center of the patch, the higher the weight
-        我们的预测是使用滑动补丁进行的，
-        并且对于每个补丁预测相应的结果，
-        并且对于贴片重叠的部分，
-        我们使用权重<map_kernel>平衡，
-        我们一致认为，离贴片中心越近，重量就越高
-        """
-
         shape = args.ROI_shape
-        a = np.zeros(shape=shape)#整合到外面去了
+        a = np.zeros(shape=shape)
         a = np.where(a == 0)
         map_kernel = 1 / (
             (a[0] - shape[0] // 2) ** 4
@@ -424,130 +409,65 @@ def predict(model, image_dir, save_path, args):
             + (a[2] - shape[2] // 2) ** 4
             + 1
         )
+        # แก้ไขจุดที่ 1: ลบ newshape= ออก และสะกดเป็น map_kernel
         map_kernel = np.reshape(map_kernel, (1, 1) + shape)
 
-        # print(np.max(map_kernel))
-        image = image[np.newaxis, np.newaxis, :, :, :]#添加维度：为图像添加额外的批处理和通道维度，以符合 PyTorch 模型的输入要求。
+        image = image[np.newaxis, np.newaxis, :, :, :]
 
-        stride_x = shape[0] // 2#计算步长：定义在各个维度上移动图像块的步长。
+        stride_x = shape[0] // 2
         stride_y = shape[1] // 2
         stride_z = shape[2] // 2
+        
+        # แก้ไขจุดที่ 2: ลูปการดึง Patch และแก้ปัญหา Double/Float mismatch
         for i in range(z // stride_x - 1):
             for j in range(y // stride_y - 1):
                 for k in range(x // stride_z - 1):
-                    image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                              k * stride_z:k * stride_z + shape[2]]
-                    image_i = torch.from_numpy(image_i)
-                    if torch.cuda.is_available():
-                        image_i = image_i.cuda()
-                    with torch.no_grad():  # 不计算梯度
+                    image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]]
+                    image_i = torch.from_numpy(image_i).float().cuda() # บังคับเป็น float และส่งเข้า GPU
+                    with torch.no_grad():
                         output = model(image_i)
                     output = output.data.cpu().numpy()
+                    predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += output * map_kernel
+                    n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += map_kernel
 
-                    predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                    k * stride_z:k * stride_z + shape[2]] += output * map_kernel
-
-                    n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                    k * stride_z:k * stride_z + shape[2]] += map_kernel
-
-                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                          x - shape[2]:x]
-                image_i = torch.from_numpy(image_i)
-                if torch.cuda.is_available():
-                    image_i = image_i.cuda()
-                with torch.no_grad():  # 不计算梯度
+                # ขอบแกน Z
+                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], x - shape[2]:x]
+                image_i = torch.from_numpy(image_i).float().cuda()
+                with torch.no_grad():
                     output = model(image_i)
                 output = output.data.cpu().numpy()
-                predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                x - shape[2]:x] += output * map_kernel
-
-                n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                x - shape[2]:x] += map_kernel
+                predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], x - shape[2]:x] += output * map_kernel
+                n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], x - shape[2]:x] += map_kernel
 
             for k in range(x // stride_z - 1):
-                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
-                          k * stride_z:k * stride_z + shape[2]]
-                image_i = torch.from_numpy(image_i)
-                if torch.cuda.is_available():
-                    image_i = image_i.cuda()
-                with torch.no_grad():  # 不计算梯度
+                # ขอบแกน Y
+                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, k * stride_z:k * stride_z + shape[2]]
+                image_i = torch.from_numpy(image_i).float().cuda()
+                with torch.no_grad():
                     output = model(image_i)
                 output = output.data.cpu().numpy()
-                predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
-                k * stride_z:k * stride_z + shape[2]] += output * map_kernel
+                predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, k * stride_z:k * stride_z + shape[2]] += output * map_kernel
+                n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, k * stride_z:k * stride_z + shape[2]] += map_kernel
 
-                n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
-                k * stride_z:k * stride_z + shape[2]] += map_kernel
-
+            # มุมภาพ (Y และ Z ขอบ)
             image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x]
-            image_i = torch.from_numpy(image_i)
-            if torch.cuda.is_available():
-                image_i = image_i.cuda()
-            with torch.no_grad():  # 不计算梯度
+            image_i = torch.from_numpy(image_i).float().cuda()
+            with torch.no_grad():
                 output = model(image_i)
             output = output.data.cpu().numpy()
-
             predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += output * map_kernel
             n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += map_kernel
 
+        # เพิ่มเติม: ลูปแกน Z ขอบล่าง (เก็บตกส่วนที่เหลือ)
         for j in range(y // stride_y - 1):
             for k in range((x - shape[2]) // stride_z):
-                image_i = image[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-                          k * stride_z:k * stride_z + shape[2]]
-                image_i = torch.from_numpy(image_i)
-                if torch.cuda.is_available():
-                    image_i = image_i.cuda()
-                with torch.no_grad():  # 不计算梯度
+                image_i = image[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]]
+                image_i = torch.from_numpy(image_i).float().cuda()
+                with torch.no_grad():
                     output = model(image_i)
                 output = output.data.cpu().numpy()
-
-                predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-                k * stride_z:k * stride_z + shape[2]] += output * map_kernel
-
-                n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-                k * stride_z:k * stride_z + shape[2]] += map_kernel
-
-            image_i = image[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-                      x - shape[2]:x]
-            image_i = torch.from_numpy(image_i)
-            if torch.cuda.is_available():
-                image_i = image_i.cuda()
-            with torch.no_grad():  # 不计算梯度
-                output = model(image_i)
-            output = output.data.cpu().numpy()
-
-            predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-            x - shape[2]:x] += output * map_kernel
-
-            n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-            x - shape[2]:x] += map_kernel
-
-        for k in range(x // stride_z - 1):
-            image_i = image[:, :, z - shape[0]:z, y - shape[1]:y,
-                      k * stride_z:k * stride_z + shape[2]]
-            image_i = torch.from_numpy(image_i)
-            if torch.cuda.is_available():
-                image_i = image_i.cuda()
-            with torch.no_grad():  # 不计算梯度
-                output = model(image_i)
-            output = output.data.cpu().numpy()
-
-            predict[:, :, z - shape[0]:z, y - shape[1]:y,
-            k * stride_z:k * stride_z + shape[2]] += output * map_kernel
-
-            n_map[:, :, z - shape[0]:z, y - shape[1]:y,
-            k * stride_z:k * stride_z + shape[2]] += map_kernel
-
-        image_i = image[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x]
-        image_i = torch.from_numpy(image_i)
-        if torch.cuda.is_available():
-            image_i = image_i.cuda()
-        with torch.no_grad():  # 不计算梯度
-            output = model(image_i)
-        output = output.data.cpu().numpy()
-
-        predict[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x] += output * map_kernel
-        n_map[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x] += map_kernel
+                predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += output * map_kernel
+                n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += map_kernel
 
         predict = predict / n_map
         predict = np.argmax(predict[0], axis=0)
