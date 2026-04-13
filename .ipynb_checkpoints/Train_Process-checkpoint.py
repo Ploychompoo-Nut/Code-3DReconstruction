@@ -435,8 +435,7 @@ def predict(model, image_dir, save_path, args):
         for i in range(z // stride_x - 1):
             for j in range(y // stride_y - 1):
                 for k in range(x // stride_z - 1):
-                    image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                              k * stride_z:k * stride_z + shape[2]]
+                    image_i = torch.from_numpy(image_i).float()
                     image_i = torch.from_numpy(image_i)
                     if torch.cuda.is_available():
                         image_i = image_i.cuda()
@@ -450,8 +449,7 @@ def predict(model, image_dir, save_path, args):
                     n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
                     k * stride_z:k * stride_z + shape[2]] += map_kernel
 
-                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                          x - shape[2]:x]
+                image_i = torch.from_numpy(image_i).float()
                 image_i = torch.from_numpy(image_i)
                 if torch.cuda.is_available():
                     image_i = image_i.cuda()
@@ -465,8 +463,7 @@ def predict(model, image_dir, save_path, args):
                 x - shape[2]:x] += map_kernel
 
             for k in range(x // stride_z - 1):
-                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
-                          k * stride_z:k * stride_z + shape[2]]
+                image_i = torch.from_numpy(image_i).float()
                 image_i = torch.from_numpy(image_i)
                 if torch.cuda.is_available():
                     image_i = image_i.cuda()
@@ -479,7 +476,7 @@ def predict(model, image_dir, save_path, args):
                 n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
                 k * stride_z:k * stride_z + shape[2]] += map_kernel
 
-            image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x]
+            image_i = torch.from_numpy(image_i).float()
             image_i = torch.from_numpy(image_i)
             if torch.cuda.is_available():
                 image_i = image_i.cuda()
