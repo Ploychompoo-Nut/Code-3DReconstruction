@@ -418,15 +418,15 @@ def predict(model, image_dir, save_path, args):
         shape = args.ROI_shape
         a = np.zeros(shape=shape)#整合到外面去了
         a = np.where(a == 0)
-        map_kernal = 1 / (
+        map_kernel = 1 / (
             (a[0] - shape[0] // 2) ** 4
             + (a[1] - shape[1] // 2) ** 4
             + (a[2] - shape[2] // 2) ** 4
             + 1
         )
-        map_kernal = np.reshape(map_kernal, newshape=(1, 1,) + shape)
+        map_kernel = np.reshape(map_kernal, (1, 1) + shape)
 
-        # print(np.max(map_kernal))
+        # print(np.max(map_kernel))
         image = image[np.newaxis, np.newaxis, :, :, :]#添加维度：为图像添加额外的批处理和通道维度，以符合 PyTorch 模型的输入要求。
 
         stride_x = shape[0] // 2#计算步长：定义在各个维度上移动图像块的步长。
@@ -445,10 +445,10 @@ def predict(model, image_dir, save_path, args):
                     output = output.data.cpu().numpy()
 
                     predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                    k * stride_z:k * stride_z + shape[2]] += output * map_kernal
+                    k * stride_z:k * stride_z + shape[2]] += output * map_kernel
 
                     n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                    k * stride_z:k * stride_z + shape[2]] += map_kernal
+                    k * stride_z:k * stride_z + shape[2]] += map_kernel
 
                 image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
                           x - shape[2]:x]
@@ -459,10 +459,10 @@ def predict(model, image_dir, save_path, args):
                     output = model(image_i)
                 output = output.data.cpu().numpy()
                 predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                x - shape[2]:x] += output * map_kernal
+                x - shape[2]:x] += output * map_kernel
 
                 n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1],
-                x - shape[2]:x] += map_kernal
+                x - shape[2]:x] += map_kernel
 
             for k in range(x // stride_z - 1):
                 image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
@@ -474,10 +474,10 @@ def predict(model, image_dir, save_path, args):
                     output = model(image_i)
                 output = output.data.cpu().numpy()
                 predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
-                k * stride_z:k * stride_z + shape[2]] += output * map_kernal
+                k * stride_z:k * stride_z + shape[2]] += output * map_kernel
 
                 n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y,
-                k * stride_z:k * stride_z + shape[2]] += map_kernal
+                k * stride_z:k * stride_z + shape[2]] += map_kernel
 
             image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x]
             image_i = torch.from_numpy(image_i)
@@ -487,8 +487,8 @@ def predict(model, image_dir, save_path, args):
                 output = model(image_i)
             output = output.data.cpu().numpy()
 
-            predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += output * map_kernal
-            n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += map_kernal
+            predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += output * map_kernel
+            n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += map_kernel
 
         for j in range(y // stride_y - 1):
             for k in range((x - shape[2]) // stride_z):
@@ -502,10 +502,10 @@ def predict(model, image_dir, save_path, args):
                 output = output.data.cpu().numpy()
 
                 predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-                k * stride_z:k * stride_z + shape[2]] += output * map_kernal
+                k * stride_z:k * stride_z + shape[2]] += output * map_kernel
 
                 n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-                k * stride_z:k * stride_z + shape[2]] += map_kernal
+                k * stride_z:k * stride_z + shape[2]] += map_kernel
 
             image_i = image[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
                       x - shape[2]:x]
@@ -517,10 +517,10 @@ def predict(model, image_dir, save_path, args):
             output = output.data.cpu().numpy()
 
             predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-            x - shape[2]:x] += output * map_kernal
+            x - shape[2]:x] += output * map_kernel
 
             n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1],
-            x - shape[2]:x] += map_kernal
+            x - shape[2]:x] += map_kernel
 
         for k in range(x // stride_z - 1):
             image_i = image[:, :, z - shape[0]:z, y - shape[1]:y,
@@ -533,10 +533,10 @@ def predict(model, image_dir, save_path, args):
             output = output.data.cpu().numpy()
 
             predict[:, :, z - shape[0]:z, y - shape[1]:y,
-            k * stride_z:k * stride_z + shape[2]] += output * map_kernal
+            k * stride_z:k * stride_z + shape[2]] += output * map_kernel
 
             n_map[:, :, z - shape[0]:z, y - shape[1]:y,
-            k * stride_z:k * stride_z + shape[2]] += map_kernal
+            k * stride_z:k * stride_z + shape[2]] += map_kernel
 
         image_i = image[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x]
         image_i = torch.from_numpy(image_i)
@@ -546,8 +546,8 @@ def predict(model, image_dir, save_path, args):
             output = model(image_i)
         output = output.data.cpu().numpy()
 
-        predict[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x] += output * map_kernal
-        n_map[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x] += map_kernal
+        predict[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x] += output * map_kernel
+        n_map[:, :, z - shape[0]:z, y - shape[1]:y, x - shape[2]:x] += map_kernel
 
         predict = predict / n_map
         predict = np.argmax(predict[0], axis=0)
