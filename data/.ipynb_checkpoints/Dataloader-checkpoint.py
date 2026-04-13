@@ -163,9 +163,9 @@ class Dataloader1(data.Dataset):
         # print(f"label: {label.shape}")
 
         # Data Augmentation
-        data_dict = transform_img_lab({"image": image, "label": label})
-        image_trans = data_dict["image"] 
-        label_trans = data_dict["label"]
+        transformed_data = transform_img_lab({"image": image, "label": label})
+        image_trans = transformed_data["image"]
+        label_trans = transformed_data["label"]
         if isinstance(image_trans, torch.Tensor):
             image_trans = image_trans.numpy()
         if isinstance(label_trans, torch.Tensor):
@@ -180,7 +180,7 @@ class Dataloader1(data.Dataset):
         # print(f"label_trans: {np.sum(label_trans == 1)}")
         # label_trans = to_categorical(label_trans[0], 3)#
 
-        return image_trans, label_trans
+        return image_trans, label_trans, label_trans
 
     def __len__(self):
         return len(self.image_file)

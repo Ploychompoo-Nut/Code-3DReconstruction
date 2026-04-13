@@ -2,7 +2,7 @@
 import os
 import gc
 import json
-from tkinter import Label
+#from tkinter import Label
 
 import time  # 导入 time 模块
 import torch
@@ -54,13 +54,17 @@ class AverageMeter(object):
         self.count += n
         self.avg = self.sum / self.count
 
-def Dice_one_hot(label, output, class_index=1):
+def Dice_one_hot(label, output):
     eps = 1e-6
-    label = torch.nn.functional.one_hot(label.squeeze(dim=1).long(), num_classes=2).permute(0, 4, 1, 2, 3)
+    if label.dim() == 5:
+        pass
+    else:
+        label = torch.nn.functional.one_hot(label.squeeze(dim=1).long(), num_classes=2).permute(0, 4, 1, 2, 3)
+    c_index = 1
     # 选择感兴趣的类别通道
-    label = label[:, class_index, ...]  # 假设类别索引为1
+    label = label[:, c_index, ...]  # 假设类别索引为1
     # print(label)
-    output = output[:, class_index, ...]
+    output = output[:, c_index, ...]
     output = (output > 0.5).float()
 
     dims = (1, 2, 3)
