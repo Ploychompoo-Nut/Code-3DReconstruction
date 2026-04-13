@@ -4,7 +4,7 @@ import gc
 from torch.utils import data
 import numpy as np
 import SimpleITK as sitk
-from Data_Augumentation import transform_img_lab
+from .Data_Augumentation import transform_img_lab
 import warnings
 import monai
 
