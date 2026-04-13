@@ -2,9 +2,9 @@
 import os
 import argparse
 import sys
-sys.path.append('/workspace/PMCSeg')
-sys.path.append('/workspace/PMCSeg/models')
-sys.path.append('/workspace/PMCSeg/data')
+sys.path.append('/workspace/Code-3DReconstruction')
+sys.path.append('/workspace/Code-3DReconstruction/models')
+sys.path.append('/workspace/Code-3DReconstruction/data')
 from data.Pre_Getmeanstd import Getmeanstd
 from data.Pre_Generate_Txt import Generate_Txt
 from Train_Process import Train
@@ -69,8 +69,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # "root_dir" refers to the address of the outermost code, and "***" needs to be replaced
-    root_dir = "/workspace/PMCSeg/"                              # todo
-    data_dir = "/workspace/PMCSeg/dataset/"                                         # todo
+    root_dir = "/workspace/Code-3DReconstruction/"                              # todo
+    data_dir = "/workspace/Code-3DReconstruction/dataset/"                                         # todo
     parser.add_argument(
         "--root_dir", default=root_dir, help="the address of the outermost code"
     )
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     """
     parser.add_argument(
         # "--save_path", default=root_dir + "Results/upper_wt/DSCNet/", help="Save dir"
-        "--save_path", default=root_dir + "Results/upper_lower/SwinUNETR/", help="Save dir"
+        "--save_path", default=root_dir + "Results/upper_lower/SegResNet/", help="Save dir"
     )
     parser.add_argument(
         # "--save_path_max",
