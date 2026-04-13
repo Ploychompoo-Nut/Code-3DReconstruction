@@ -424,7 +424,7 @@ def predict(model, image_dir, save_path, args):
             + (a[2] - shape[2] // 2) ** 4
             + 1
         )
-        map_kernal = np.reshape(map_kernal, newshape=(1, 1,) + shape)
+        map_kernal = np.reshape(map_kernal, (1, 1) + shape)
 
         # print(np.max(map_kernal))
         image = image[np.newaxis, np.newaxis, :, :, :]#添加维度：为图像添加额外的批处理和通道维度，以符合 PyTorch 模型的输入要求。
