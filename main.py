@@ -189,21 +189,21 @@ if __name__ == "__main__":
         # default=root_dir + "Results/upper_wt/DSCNet_max/",
         # help="Save max dir",
         "--save_path_max",
-        default=root_dir + "Results/upper_lower/SwinUNETR_max/",
+        default=root_dir + "Results/upper_lower/SegResNet_max/",
         help="Save max dir",
     )
-    parser.add_argument("--model_name", default="SwinUNETR_KIPA", help="Weights name")
+    parser.add_argument("--model_name", default="SegResNet_KIPA", help="Weights name")
     parser.add_argument(
-        "--model_name_max", default="SwinUNETR_KIPA_max", help="Max Weights name"
+        "--model_name_max", default="SegResNet_KIPA_max", help="Max Weights name"
     )
-    parser.add_argument("--model_name1", default="SwinUNETR_KIPA1", help="Weights name")
+    parser.add_argument("--model_name1", default="SegResNet_KIPA1", help="Weights name")
     parser.add_argument(
-        "--model_name_max1", default="SwinUNETR_max1", help="Max Weights name"
+        "--model_name_max1", default="SegResNet_max1", help="Max Weights name"
     )
-    parser.add_argument("--log_name", default="SwinUNETR_KIPA.log", help="Log name")
+    parser.add_argument("--log_name", default="SegResNet_KIPA.log", help="Log name")
 
     # Network options
-    parser.add_argument("--name", default='swinunet',  help="model_name")
+    parser.add_argument("--name", default='segresnet',  help="model_name")
     parser.add_argument("--att", default=[32, 64, 128, 256, 320,320], help="attention")
     parser.add_argument("--n_channels", default=1, type=int, help="input channels")
     parser.add_argument("--n_classes", default=2, type=int, help="output channels")#代表几个分类，原本是3代表三分类,label 是2通道，采用的是onehot编码
@@ -231,7 +231,7 @@ if __name__ == "__main__":
     """
     parser.add_argument("--ROI_shape", default=(96, 96, 96), type=int, help="roi size")#高度深度宽度default=(128, 96, 96)(128, 160, 160)
     parser.add_argument("--samples_per_volume", default=2, type=int, help="samples_per_volume")  # 高度深度宽度default=(128, 96, 96)
-    parser.add_argument("--batch_size", default=2, type=int, help="batch size")#1
+    parser.add_argument("--batch_size", default=4, type=int, help="batch size")#1
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument("--lr", default=0.0001, type=float, help="learning rate")#1e-4
     parser.add_argument(

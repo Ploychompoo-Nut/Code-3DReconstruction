@@ -246,7 +246,7 @@ def Train_net(net,args):
 
     lr_scheduler = ReduceLROnPlateau(optimizer, mode="max", factor=0.8, patience=10)
 
-    weights = torch.tensor([0.1, 0.9]).cuda()
+    weights = torch.tensor([0.05, 0.95]).cuda()
 
     criterion = CombinedLoss(weight=weights)
 
