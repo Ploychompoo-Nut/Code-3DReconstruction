@@ -110,22 +110,27 @@ class WeightedCrossEntropyLoss(torch.nn.Module):
 #         return n*ce_loss + (1-n)*dice_loss
 
 
+# ในไฟล์ losses/Loss.py
 class CombinedLoss(torch.nn.Module):
-    def __init__(self,weight):
+    def __init__(self, weight=None):
         super(CombinedLoss, self).__init__()
-        self.weight = weight
-        self.weighted_ce = nn.CrossEntropyLoss()
-        self.dice_loss = DiceLoss(include_background=True, sigmoid=False, softmax=False)
+        # ใช้ DiceLoss จาก monai โดยตรงเพื่อให้ค่าแม่นยำและไม่ติดลบ
+        self.dice_loss = DiceLoss(
+            include_background=False, # สำคัญมาก: โฟกัสแค่เส้นเลือด (Class 1)
+            softmax=True,            # ให้ MONAI จัดการ Softmax ข้างในเองเลย
+            to_onehot_y=False        # เพราะ Dataloader ทำ onehot มาแล้ว
+        )
+        self.weighted_ce = nn.CrossEntropyLoss(weight=weight)
 
-    def forward(self, inputs, targets):
-        output = F.softmax(inputs, dim=1)
-        dice_loss = self.dice_loss(output, targets)
-        targets = torch.argmax(targets, dim=1)
-        ce_loss = self.weighted_ce(inputs, targets)
-        return ce_loss + dice_loss
-
-
-
-
-
-
+    def forward(self, inputs, targets, gt_dist=None):
+        # inputs: [B, 2, 96, 96, 96], targets: [B, 2, 96, 96, 96]
+        
+        # 1. Dice Loss
+        d_loss = self.dice_loss(inputs, targets)
+        
+        # 2. Cross Entropy Loss (ต้องการ target เป็น long index)
+        ce_target = torch.argmax(targets, dim=1) # [B, 96, 96, 96]
+        ce_loss = self.weighted_ce(inputs, ce_target)
+        
+        # รวมกันเพื่อให้ได้ค่าที่สมดุล
+        return ce_loss + d_loss

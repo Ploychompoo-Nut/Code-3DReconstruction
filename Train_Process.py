@@ -60,6 +60,7 @@ def Dice_one_hot(label, output):
         pass
     else:
         label = torch.nn.functional.one_hot(label.squeeze(dim=1).long(), num_classes=2).permute(0, 4, 1, 2, 3)
+
     c_index = 1
     # 选择感兴趣的类别通道
     label = label[:, c_index, ...]  # 假设类别索引为1
@@ -245,8 +246,9 @@ def Train_net(net,args):
 
     lr_scheduler = ReduceLROnPlateau(optimizer, mode="max", factor=0.8, patience=10)
 
+    weights = torch.tensor([0.1, 0.9]).cuda()
 
-    criterion = dice_loss()
+    criterion = CombinedLoss(weight=weights)
 
 
     #日志

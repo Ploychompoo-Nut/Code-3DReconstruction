@@ -104,6 +104,7 @@ class Dataloader1(data.Dataset):
         # print(f"label: {label.shape}")
 
         # Normalization
+        image = np.clip(image, -1000, 2000) # ตัด Noise ของอากาศและโลหะใน CBCT
         mean, std = np.load(self.args.root_dir + self.args.Tr_Meanstd_name)
         image = (image - mean) / std
 
@@ -180,7 +181,7 @@ class Dataloader1(data.Dataset):
         # print(f"label_trans: {np.sum(label_trans == 1)}")
         # label_trans = to_categorical(label_trans[0], 3)#
 
-        return image_trans, label_trans, label_trans
+        return image_trans, label_trans, torch.zeros_like(label_trans)
 
     def __len__(self):
         return len(self.image_file)

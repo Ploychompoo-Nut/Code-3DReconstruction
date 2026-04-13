@@ -233,12 +233,12 @@ if __name__ == "__main__":
     parser.add_argument("--samples_per_volume", default=2, type=int, help="samples_per_volume")  # 高度深度宽度default=(128, 96, 96)
     parser.add_argument("--batch_size", default=2, type=int, help="batch size")#1
     parser.add_argument('--num_workers', type=int, default=2)
-    parser.add_argument("--lr", default=0.001, type=int, help="learning rate")#1e-4
+    parser.add_argument("--lr", default=0.0001, type=float, help="learning rate")#1e-4
     parser.add_argument(
         "--start_train_epoch", default=1, type=int, help="Start training epoch"
     )
     parser.add_argument(
-        "--start_verify_epoch", default=200, type=int, help="Start verifying epoch"
+        "--start_verify_epoch", default=20, type=int, help="Start verifying epoch"
     )
     parser.add_argument("--n_epochs", default=300, type=int, help="Epoch Num")
     parser.add_argument("--if_retrain", default=True, type=bool, help="If Retrain")#True
