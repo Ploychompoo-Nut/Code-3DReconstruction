@@ -235,12 +235,12 @@ if __name__ == "__main__":
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument("--lr", default=0.0001, type=float, help="learning rate")#1e-4
     parser.add_argument(
-        "--start_train_epoch", default=20, type=int, help="Start training epoch"
+        "--start_train_epoch", default=52, type=int, help="Start training epoch"
     )
     parser.add_argument(
-        "--start_verify_epoch", default=20, type=int, help="Start verifying epoch"
+        "--start_verify_epoch", default=50, type=int, help="Start verifying epoch"
     )
-    parser.add_argument("--n_epochs", default=300, type=int, help="Epoch Num")
+    parser.add_argument("--n_epochs", default=150, type=int, help="Epoch Num")
     parser.add_argument("--if_retrain", default=False, type=bool, help="If Retrain")#True
     parser.add_argument("--if_onlytest", default=False, type=bool, help="If Only Test")#False
 
