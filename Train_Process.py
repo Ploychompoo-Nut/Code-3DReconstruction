@@ -203,7 +203,7 @@ def Get_logger(filename, verbosity=1, name=None):
     logger = logging.getLogger(name)
     logger.setLevel(level_dict[verbosity])
 
-    fh = logging.FileHandler(filename, "w")
+    fh = logging.FileHandler(filename, "a")
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
@@ -246,7 +246,7 @@ def Train_net(net,args):
 
     lr_scheduler = ReduceLROnPlateau(optimizer, mode="max", factor=0.8, patience=10)
 
-    weights = torch.tensor([0.05, 0.95]).cuda()
+    weights = torch.tensor([0.1, 0.9]).cuda()
 
     criterion = CombinedLoss(weight=weights)
 
@@ -290,7 +290,7 @@ def Train_net(net,args):
         else:
             lr_scheduler.step(dice_max)
 
-        if epoch >= args.start_verify_epoch:
+        if epoch >= args.start_verify_epoch and epoch % 10 == 0:
             net.load_state_dict(
                 torch.load(os.path.join(args.Dir_Weights, args.model_name))  # 这个就是用的最后一个权值，因为每次都更新，没什么意义啊
             )
@@ -319,7 +319,11 @@ def Train_net(net,args):
         )
         # update the training log
         training_log.append([epoch, loss.item(), dice_e.item(), optimizer.param_groups[0]["lr"]])
-        pd.DataFrame(training_log, columns=training_log_header).set_index("epoch").to_csv(training_log_filename)
+        df = pd.DataFrame([training_log[-1]], columns=training_log_header) # เอาเฉพาะบรรทัดล่าสุด
+        if not os.path.isfile(training_log_filename):
+            df.set_index("epoch").to_csv(training_log_filename)
+        else:
+            df.set_index("epoch").to_csv(training_log_filename, mode='a', header=False)
 
         # 绘制训练损失和准确率
         matplotlib.use('Agg')
@@ -366,7 +370,6 @@ def prepare_map_kernel(shape):
     )
     return np.reshape(map_kernel, newshape=(1, 1,) + shape)
 
-# --- ส่วนของฟังก์ชัน predict ที่แก้ไขแล้ว ---
 def predict(model, image_dir, save_path, args):
     print("Predict test data")
     model.eval()
@@ -415,9 +418,9 @@ def predict(model, image_dir, save_path, args):
 
         image = image[np.newaxis, np.newaxis, :, :, :]
 
-        stride_x = shape[0] // 2
-        stride_y = shape[1] // 2
-        stride_z = shape[2] // 2
+        stride_x = shape[0] // 1.5
+        stride_y = shape[1] // 1.5
+        stride_z = shape[2] // 1.5
         
         # แก้ไขจุดที่ 2: ลูปการดึง Patch และแก้ปัญหา Double/Float mismatch
         for i in range(z // stride_x - 1):

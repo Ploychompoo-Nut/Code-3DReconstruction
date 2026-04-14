@@ -235,7 +235,7 @@ if __name__ == "__main__":
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument("--lr", default=0.0001, type=float, help="learning rate")#1e-4
     parser.add_argument(
-        "--start_train_epoch", default=20, type=int, help="Start training epoch"
+        "--start_train_epoch", default=55, type=int, help="Start training epoch"
     )
     parser.add_argument(
         "--start_verify_epoch", default=50, type=int, help="Start verifying epoch"
