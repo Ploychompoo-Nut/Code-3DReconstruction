@@ -418,9 +418,9 @@ def predict(model, image_dir, save_path, args):
 
         image = image[np.newaxis, np.newaxis, :, :, :]
 
-        stride_x = shape[0] // 1
-        stride_y = shape[1] // 1
-        stride_z = shape[2] // 1
+        stride_x = shape[0] // 2
+        stride_y = shape[1] // 2
+        stride_z = shape[2] // 2
         
         # แก้ไขจุดที่ 2: ลูปการดึง Patch และแก้ปัญหา Double/Float mismatch
         for i in range(z // stride_x - 1):
