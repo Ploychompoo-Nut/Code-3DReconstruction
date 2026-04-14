@@ -46,7 +46,7 @@ def get_model(name, att = None, in_channels=1, out_channels=3):
             out_channels=2,
             img_size=(96,96,96),
             feature_size=32,
-            norm_name='batch').to(device)
+            norm_name='instance').to(device)
         return model
     elif name == "resnet":  # 构造ResNet模型
         model = ResNet(

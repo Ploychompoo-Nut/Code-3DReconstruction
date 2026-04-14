@@ -2,9 +2,9 @@
 import os
 import argparse
 import sys
-sys.path.append('/workspace/Code-3DReconstruction')
-sys.path.append('/workspace/Code-3DReconstruction/models')
-sys.path.append('/workspace/Code-3DReconstruction/data')
+sys.path.append('/workspace/UNETR')
+sys.path.append('/workspace/UNETR/models')
+sys.path.append('/workspace/UNETR/data')
 from data.Pre_Getmeanstd import Getmeanstd
 from data.Pre_Generate_Txt import Generate_Txt
 from Train_Process import Train
@@ -69,8 +69,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # "root_dir" refers to the address of the outermost code, and "***" needs to be replaced
-    root_dir = "/workspace/Code-3DReconstruction/"                              # todo
-    data_dir = "/workspace/Code-3DReconstruction/dataset/"                                         # todo
+    root_dir = "/workspace/UNETR/"                              # todo
+    data_dir = "/workspace/UNETR/dataset/"                                         # todo
     parser.add_argument(
         "--root_dir", default=root_dir, help="the address of the outermost code"
     )
@@ -182,28 +182,28 @@ if __name__ == "__main__":
     """
     parser.add_argument(
         # "--save_path", default=root_dir + "Results/upper_wt/DSCNet/", help="Save dir"
-        "--save_path", default=root_dir + "Results/upper_lower/SegResNet/", help="Save dir"
+        "--save_path", default=root_dir + "Results/upper_lower/UNETR/", help="Save dir"
     )
     parser.add_argument(
         # "--save_path_max",
         # default=root_dir + "Results/upper_wt/DSCNet_max/",
         # help="Save max dir",
         "--save_path_max",
-        default=root_dir + "Results/upper_lower/SegResNet_max/",
+        default=root_dir + "Results/upper_lower/UNETR_max/",
         help="Save max dir",
     )
-    parser.add_argument("--model_name", default="SegResNet_KIPA", help="Weights name")
+    parser.add_argument("--model_name", default="UNETR_KIPA", help="Weights name")
     parser.add_argument(
-        "--model_name_max", default="SegResNet_KIPA_max", help="Max Weights name"
+        "--model_name_max", default="UNETR_KIPA_max", help="Max Weights name"
     )
-    parser.add_argument("--model_name1", default="SegResNet_KIPA1", help="Weights name")
+    parser.add_argument("--model_name1", default="UNETR_KIPA1", help="Weights name")
     parser.add_argument(
-        "--model_name_max1", default="SegResNet_max1", help="Max Weights name"
+        "--model_name_max1", default="UNETR_max1", help="Max Weights name"
     )
-    parser.add_argument("--log_name", default="SegResNet_KIPA.log", help="Log name")
+    parser.add_argument("--log_name", default="UNETR_KIPA.log", help="Log name")
 
     # Network options
-    parser.add_argument("--name", default='segresnet',  help="model_name")
+    parser.add_argument("--name", default='unetr',  help="model_name")
     parser.add_argument("--att", default=[32, 64, 128, 256, 320,320], help="attention")
     parser.add_argument("--n_channels", default=1, type=int, help="input channels")
     parser.add_argument("--n_classes", default=2, type=int, help="output channels")#代表几个分类，原本是3代表三分类,label 是2通道，采用的是onehot编码
@@ -235,13 +235,13 @@ if __name__ == "__main__":
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument("--lr", default=0.0001, type=float, help="learning rate")#1e-4
     parser.add_argument(
-        "--start_train_epoch", default=150, type=int, help="Start training epoch"
+        "--start_train_epoch", default=1, type=int, help="Start training epoch"
     )
     parser.add_argument(
         "--start_verify_epoch", default=50, type=int, help="Start verifying epoch"
     )
     parser.add_argument("--n_epochs", default=150, type=int, help="Epoch Num")
-    parser.add_argument("--if_retrain", default=False, type=bool, help="If Retrain")#True
+    parser.add_argument("--if_retrain", default=True, type=bool, help="If Retrain")#True
     parser.add_argument("--if_onlytest", default=False, type=bool, help="If Only Test")#False
 
     args, unknown = parser.parse_known_args()

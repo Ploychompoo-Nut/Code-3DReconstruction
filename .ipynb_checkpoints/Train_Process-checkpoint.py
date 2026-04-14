@@ -473,6 +473,7 @@ def predict(model, image_dir, save_path, args):
                 predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += output * map_kernel
                 n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += map_kernel
 
+    for t in range(file_num):
         predict = predict / n_map
         predict = np.argmax(predict[0], axis=0)
         predict = predict.astype(np.uint16)
@@ -482,8 +483,10 @@ def predict(model, image_dir, save_path, args):
         out.SetDirection(image1.GetDirection())
         out.SetSpacing(image1.GetSpacing())
         sitk.WriteImage(out, join(save_path, name))
-    torch.cuda.empty_cache()
-    gc.collect()
+
+        del predict, n_map, out  # ลบตัวแปรขนาดใหญ่ที่ใช้ในรอบนั้นๆ
+        torch.cuda.empty_cache() # เคลียร์ VRAM 
+        gc.collect()             # เคลียร์ System RAM
     print("finish!")
 def Dice(label_dir, pred_dir,logger):
     # 获取image文件索引
