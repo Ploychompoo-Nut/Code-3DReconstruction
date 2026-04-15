@@ -139,3 +139,4 @@
 [2026-04-15 10:16:38,504][Train_Process.py] Epoch:[62/150]  lr=0.000080  loss=0.41777  dice_e=0.6111 max_dice=0.2927
 [2026-04-15 10:21:42,884][Train_Process.py] Epoch:[63/150]  lr=0.000064  loss=0.35493  dice_e=0.6758 max_dice=0.2927
 [2026-04-15 10:26:55,921][Train_Process.py] Epoch:[64/150]  lr=0.000064  loss=0.34686  dice_e=0.6918 max_dice=0.2927
+[2026-04-15 10:31:56,987][Train_Process.py] Epoch:[65/150]  lr=0.000064  loss=0.40560  dice_e=0.6374 max_dice=0.2927
