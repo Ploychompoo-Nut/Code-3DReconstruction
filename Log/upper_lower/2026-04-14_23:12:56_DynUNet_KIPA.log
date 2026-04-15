@@ -1,0 +1,15 @@
+[2026-04-14 23:12:56,634][Train_Process.py] start training!
+[2026-04-14 23:18:18,827][Train_Process.py] Epoch:[1/150]  lr=0.000100  loss=1.30847  dice_e=0.0208 max_dice=0.0000
+[2026-04-14 23:23:37,731][Train_Process.py] Epoch:[2/150]  lr=0.000100  loss=1.13968  dice_e=0.0578 max_dice=0.0000
+[2026-04-14 23:28:52,426][Train_Process.py] Epoch:[3/150]  lr=0.000100  loss=1.08557  dice_e=0.1362 max_dice=0.0000
+[2026-04-14 23:34:10,333][Train_Process.py] Epoch:[4/150]  lr=0.000100  loss=1.04372  dice_e=0.1954 max_dice=0.0000
+[2026-04-14 23:39:28,658][Train_Process.py] Epoch:[5/150]  lr=0.000100  loss=1.01705  dice_e=0.2166 max_dice=0.0000
+[2026-04-14 23:44:40,694][Train_Process.py] Epoch:[6/150]  lr=0.000100  loss=0.98974  dice_e=0.2705 max_dice=0.0000
+[2026-04-14 23:49:56,365][Train_Process.py] Epoch:[7/150]  lr=0.000100  loss=0.96832  dice_e=0.3037 max_dice=0.0000
+[2026-04-14 23:55:08,483][Train_Process.py] Epoch:[8/150]  lr=0.000100  loss=0.93966  dice_e=0.3296 max_dice=0.0000
+[2026-04-15 00:00:39,026][Train_Process.py] Epoch:[9/150]  lr=0.000100  loss=0.92282  dice_e=0.3548 max_dice=0.0000
+[2026-04-15 00:06:00,796][Train_Process.py] Epoch:[10/150]  lr=0.000100  loss=0.91326  dice_e=0.3481 max_dice=0.0000
+[2026-04-15 00:11:07,650][Train_Process.py] Epoch:[11/150]  lr=0.000100  loss=0.88210  dice_e=0.3781 max_dice=0.0000
+[2026-04-15 00:16:24,838][Train_Process.py] Epoch:[12/150]  lr=0.000100  loss=0.85457  dice_e=0.3981 max_dice=0.0000
+[2026-04-15 00:21:48,547][Train_Process.py] Epoch:[13/150]  lr=0.000100  loss=0.83395  dice_e=0.4289 max_dice=0.0000
+[2026-04-15 00:27:04,002][Train_Process.py] Epoch:[14/150]  lr=0.000100  loss=0.82785  dice_e=0.3913 max_dice=0.0000
