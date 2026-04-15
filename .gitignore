@@ -1,9 +1,2 @@
 PMCanalSeg_Dataset.zip
-dataset/
-*.npy
-Weights/
-PMCanalSeg_Dataset.zip
-*.npy
-dataset/
-Weights/
 __pycache__/

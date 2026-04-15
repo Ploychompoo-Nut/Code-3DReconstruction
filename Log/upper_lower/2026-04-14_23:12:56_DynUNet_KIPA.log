@@ -135,3 +135,7 @@
 [2026-04-15 10:06:10,699][Train_Process.py] P171_lower_img.nii.gz dice=0.1969
 [2026-04-15 10:06:16,153][Train_Process.py] P172_lower_img.nii.gz dice=0.2459
 [2026-04-15 10:06:16,208][Train_Process.py] Epoch:[60/150]  lr=0.000080  loss=0.40665  dice_e=0.6394 max_dice=0.2927
+[2026-04-15 10:11:26,967][Train_Process.py] Epoch:[61/150]  lr=0.000080  loss=0.36556  dice_e=0.6710 max_dice=0.2927
+[2026-04-15 10:16:38,504][Train_Process.py] Epoch:[62/150]  lr=0.000080  loss=0.41777  dice_e=0.6111 max_dice=0.2927
+[2026-04-15 10:21:42,884][Train_Process.py] Epoch:[63/150]  lr=0.000064  loss=0.35493  dice_e=0.6758 max_dice=0.2927
+[2026-04-15 10:26:55,921][Train_Process.py] Epoch:[64/150]  lr=0.000064  loss=0.34686  dice_e=0.6918 max_dice=0.2927
