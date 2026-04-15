@@ -368,7 +368,7 @@ def prepare_map_kernel(shape):
         + (a[2] - shape[2] // 2) ** 4
         + 1
     )
-    return np.reshape(map_kernel, newshape=(1, 1,) + shape)
+    return np.reshape(map_kernel, (1, 1,) + shape)
 
 def predict(model, image_dir, save_path, args):
     print("Predict test data")
@@ -378,116 +378,83 @@ def predict(model, image_dir, save_path, args):
 
     for t in range(file_num):
         image_path = file[t]
-        print(image_path)
+        print(f"Processing: {image_path}")
 
         image1 = sitk.ReadImage(image_path)
-        image = sitk.ReadImage(image_path)
-        image = sitk.GetArrayFromImage(image)
-        image = image.astype(np.float32)
+        image = sitk.GetArrayFromImage(image1).astype(np.float32)
 
         name = image_path[image_path.rfind("/") + 1 :]
         mean, std = np.load(args.root_dir + args.Te_Meanstd_name)
         image = (image - mean) / std
-        z, y, x = image.shape
-        z_old, y_old, x_old = z, y, x
+        z_old, y_old, x_old = image.shape
 
-        if args.ROI_shape[0] > z:
-            z = args.ROI_shape[0]
-            image = reshape_img(image, z, y, x)
-        if args.ROI_shape[1] > y:
-            y = args.ROI_shape[1]
-            image = reshape_img(image, z, y, x)
-        if args.ROI_shape[2] > x:
-            x = args.ROI_shape[2]
+        # ปรับขนาดภาพให้รองรับ ROI_shape เสมอ
+        z = max(args.ROI_shape[0], z_old)
+        y = max(args.ROI_shape[1], y_old)
+        x = max(args.ROI_shape[2], x_old)
+        
+        if z > z_old or y > y_old or x > x_old:
             image = reshape_img(image, z, y, x)
 
-        predict = np.zeros([1, args.n_classes, z, y, x], dtype=np.float32)
+        # --- ย้ายการประกาศตัวแปรมาไว้ตรงนี้ เพื่อให้มั่นใจว่าถูกสร้างทุกครั้งในลูปภาพ ---
+        predict_map = np.zeros([1, args.n_classes, z, y, x], dtype=np.float32)
         n_map = np.zeros([1, args.n_classes, z, y, x], dtype=np.float32)
 
         shape = args.ROI_shape
-        a = np.zeros(shape=shape)
-        a = np.where(a == 0)
-        map_kernel = 1 / (
-            (a[0] - shape[0] // 2) ** 4
-            + (a[1] - shape[1] // 2) ** 4
-            + (a[2] - shape[2] // 2) ** 4
-            + 1
-        )
-        # แก้ไขจุดที่ 1: ลบ newshape= ออก และสะกดเป็น map_kernel
-        map_kernel = np.reshape(map_kernel, (1, 1) + shape)
+        map_kernel = prepare_map_kernel(shape) # ใช้ฟังก์ชันที่มีอยู่แล้วช่วยลดความซับซ้อน
 
-        image = image[np.newaxis, np.newaxis, :, :, :]
+        image_tensor = image[np.newaxis, np.newaxis, :, :, :]
 
-        stride_x = shape[0] // 1
-        stride_y = shape[1] // 1
-        stride_z = shape[2] // 1
-        
-        # แก้ไขจุดที่ 2: ลูปการดึง Patch และแก้ปัญหา Double/Float mismatch
-        for i in range(z // stride_x - 1):
-            for j in range(y // stride_y - 1):
-                for k in range(x // stride_z - 1):
-                    image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]]
-                    image_i = torch.from_numpy(image_i).float().cuda() # บังคับเป็น float และส่งเข้า GPU
+        # คำนวณจำนวนลูปให้ครอบคลุม (ใช้ max(1, ...) ป้องกันภาพเล็ก)
+        stride_z, stride_y, stride_x = shape[0], shape[1], shape[2]
+        num_z = max(1, z // stride_z)
+        num_y = max(1, y // stride_y)
+        num_x = max(1, x // stride_x)
+
+        for i in range(num_z):
+            for j in range(num_y):
+                for k in range(num_x):
+                    # ดึง Patch
+                    z_s, z_e = i * stride_z, i * stride_z + shape[0]
+                    y_s, y_e = j * stride_y, j * stride_y + shape[1]
+                    x_s, x_e = k * stride_x, k * stride_x + shape[2]
+                    
+                    # ตรวจสอบไม่ให้เกินขอบภาพ
+                    if z_e > z: z_s, z_e = z - shape[0], z
+                    if y_e > y: y_s, y_e = y - shape[1], y
+                    if x_e > x: x_s, x_e = x - shape[2], x
+
+                    patch = image_tensor[:, :, z_s:z_e, y_s:y_e, x_s:x_e]
+                    patch = torch.from_numpy(patch).float().cuda()
+                    
                     with torch.no_grad():
-                        output = model(image_i)
+                        output = model(patch)
+                    
                     output = output.data.cpu().numpy()
-                    predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += output * map_kernel
-                    n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += map_kernel
+                    predict_map[:, :, z_s:z_e, y_s:y_e, x_s:x_e] += output * map_kernel
+                    n_map[:, :, z_s:z_e, y_s:y_e, x_s:x_e] += map_kernel
 
-                # ขอบแกน Z
-                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], x - shape[2]:x]
-                image_i = torch.from_numpy(image_i).float().cuda()
-                with torch.no_grad():
-                    output = model(image_i)
-                output = output.data.cpu().numpy()
-                predict[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], x - shape[2]:x] += output * map_kernel
-                n_map[:, :, i * stride_x:i * stride_x + shape[0], j * stride_y:j * stride_y + shape[1], x - shape[2]:x] += map_kernel
+        # --- ส่วนสรุปผลต้องอยู่ในลูปภาพหลัก (เยื้องเข้ามา) ---
+        predict_result = predict_map / (n_map + 1e-8) # ป้องกันหารศูนย์
+        predict_result = np.argmax(predict_result[0], axis=0).astype(np.uint16)
+        
+        # ตัดภาพกลับขนาดเดิม
+        out_final = predict_result[0:z_old, 0:y_old, 0:x_old]
+        out_img = sitk.GetImageFromArray(out_final)
+        out_img.SetOrigin(image1.GetOrigin())
+        out_img.SetDirection(image1.GetDirection())
+        out_img.SetSpacing(image1.GetSpacing())
+        
+        sitk.WriteImage(out_img, join(save_path, name))
+        print(f"Saved: {name}")
 
-            for k in range(x // stride_z - 1):
-                # ขอบแกน Y
-                image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, k * stride_z:k * stride_z + shape[2]]
-                image_i = torch.from_numpy(image_i).float().cuda()
-                with torch.no_grad():
-                    output = model(image_i)
-                output = output.data.cpu().numpy()
-                predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, k * stride_z:k * stride_z + shape[2]] += output * map_kernel
-                n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, k * stride_z:k * stride_z + shape[2]] += map_kernel
+        # เคลียร์ Memory ในแต่ละภาพ
+        del predict_map, n_map, predict_result, out_final
+        torch.cuda.empty_cache()
+        gc.collect()
 
-            # มุมภาพ (Y และ Z ขอบ)
-            image_i = image[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x]
-            image_i = torch.from_numpy(image_i).float().cuda()
-            with torch.no_grad():
-                output = model(image_i)
-            output = output.data.cpu().numpy()
-            predict[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += output * map_kernel
-            n_map[:, :, i * stride_x:i * stride_x + shape[0], y - shape[1]:y, x - shape[2]:x] += map_kernel
-
-        # เพิ่มเติม: ลูปแกน Z ขอบล่าง (เก็บตกส่วนที่เหลือ)
-        for j in range(y // stride_y - 1):
-            for k in range((x - shape[2]) // stride_z):
-                image_i = image[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]]
-                image_i = torch.from_numpy(image_i).float().cuda()
-                with torch.no_grad():
-                    output = model(image_i)
-                output = output.data.cpu().numpy()
-                predict[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += output * map_kernel
-                n_map[:, :, z - shape[0]:z, j * stride_y:j * stride_y + shape[1], k * stride_z:k * stride_z + shape[2]] += map_kernel
-
-    for t in range(file_num):
-        predict = predict / n_map
-        predict = np.argmax(predict[0], axis=0)
-        predict = predict.astype(np.uint16)
-        out = predict[0:z_old, 0:y_old, 0:x_old]
-        out = sitk.GetImageFromArray(out)
-        out.SetOrigin(image1.GetOrigin())
-        out.SetDirection(image1.GetDirection())
-        out.SetSpacing(image1.GetSpacing())
-        sitk.WriteImage(out, join(save_path, name))
-
-        del predict, n_map, out  # ลบตัวแปรขนาดใหญ่ที่ใช้ในรอบนั้นๆ
-        torch.cuda.empty_cache() # เคลียร์ VRAM 
-        gc.collect()             # เคลียร์ System RAM
-    print("finish!")
+    print("--- Predict All Finished ---")
+    
 def Dice(label_dir, pred_dir,logger):
     # 获取image文件索引
     file = read_file_from_txt(label_dir)
