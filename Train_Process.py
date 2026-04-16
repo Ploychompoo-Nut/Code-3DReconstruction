@@ -368,7 +368,7 @@ def prepare_map_kernel(shape):
         + (a[2] - shape[2] // 2) ** 4
         + 1
     )
-    return np.reshape(map_kernel, (1, 1,) + shape)
+    return np.reshape(map_kernel, (1, 1) + shape)
 
 def predict(model, image_dir, save_path, args):
     print("Predict test data")
