@@ -1,3 +1,4 @@
 PMCanalSeg_Dataset.zip
 Weights/
+*.pth
 __pycache__/
