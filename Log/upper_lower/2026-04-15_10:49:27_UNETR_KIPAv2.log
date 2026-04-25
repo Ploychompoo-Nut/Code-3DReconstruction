@@ -423,3 +423,189 @@
 [2026-04-17 02:17:42,998][Train_Process.py] P171_lower_img.nii.gz dice=0.0023
 [2026-04-17 02:17:58,233][Train_Process.py] P172_lower_img.nii.gz dice=0.0019
 [2026-04-17 02:17:59,493][Train_Process.py] Epoch:[120/150]  lr=0.000026  loss=0.34072  dice_e=0.7256 max_dice=0.0019
+[2026-04-17 02:35:57,662][Train_Process.py] Epoch:[121/150]  lr=0.000026  loss=0.34723  dice_e=0.6973 max_dice=0.0019
+[2026-04-17 02:54:14,117][Train_Process.py] Epoch:[122/150]  lr=0.000026  loss=0.34782  dice_e=0.6901 max_dice=0.0019
+[2026-04-17 03:15:09,657][Train_Process.py] Epoch:[123/150]  lr=0.000026  loss=0.34976  dice_e=0.6934 max_dice=0.0019
+[2026-04-17 03:36:31,431][Train_Process.py] Epoch:[124/150]  lr=0.000026  loss=0.32560  dice_e=0.7113 max_dice=0.0019
+[2026-04-17 03:54:36,596][Train_Process.py] Epoch:[125/150]  lr=0.000021  loss=0.32886  dice_e=0.7067 max_dice=0.0019
+[2026-04-17 04:14:21,157][Train_Process.py] Epoch:[126/150]  lr=0.000021  loss=0.33950  dice_e=0.7084 max_dice=0.0019
+[2026-04-17 04:36:20,417][Train_Process.py] Epoch:[127/150]  lr=0.000021  loss=0.32052  dice_e=0.7212 max_dice=0.0019
+[2026-04-17 04:55:11,206][Train_Process.py] Epoch:[128/150]  lr=0.000021  loss=0.33332  dice_e=0.7174 max_dice=0.0019
+[2026-04-17 05:15:53,354][Train_Process.py] Epoch:[129/150]  lr=0.000021  loss=0.32475  dice_e=0.7121 max_dice=0.0019
+[2026-04-17 06:12:21,478][Train_Process.py] P135_lower_img.nii.gz dice=0.0013
+[2026-04-17 06:12:28,456][Train_Process.py] P136_lower_img.nii.gz dice=0.0010
+[2026-04-17 06:12:45,322][Train_Process.py] P137_lower_img.nii.gz dice=0.0011
+[2026-04-17 06:12:55,033][Train_Process.py] P138_lower_img.nii.gz dice=0.0035
+[2026-04-17 06:13:09,983][Train_Process.py] P139_lower_img.nii.gz dice=0.0011
+[2026-04-17 06:13:24,127][Train_Process.py] P140_lower_img.nii.gz dice=0.0013
+[2026-04-17 06:13:53,878][Train_Process.py] P141_lower_img.nii.gz dice=0.0011
+[2026-04-17 06:14:05,235][Train_Process.py] P142_lower_img.nii.gz dice=0.0015
+[2026-04-17 06:14:19,044][Train_Process.py] P143_lower_img.nii.gz dice=0.0015
+[2026-04-17 06:14:36,031][Train_Process.py] P144_lower_img.nii.gz dice=0.0020
+[2026-04-17 06:15:03,387][Train_Process.py] P145_lower_img.nii.gz dice=0.0014
+[2026-04-17 06:15:30,836][Train_Process.py] P146_lower_img.nii.gz dice=0.0013
+[2026-04-17 06:15:38,241][Train_Process.py] P147_lower_img.nii.gz dice=0.0014
+[2026-04-17 06:16:07,654][Train_Process.py] P148_lower_img.nii.gz dice=0.0017
+[2026-04-17 06:16:20,989][Train_Process.py] P149_lower_img.nii.gz dice=0.0019
+[2026-04-17 06:16:36,381][Train_Process.py] P150_lower_img.nii.gz dice=0.0034
+[2026-04-17 06:16:50,998][Train_Process.py] P151_lower_img.nii.gz dice=0.0017
+[2026-04-17 06:17:06,564][Train_Process.py] P152_lower_img.nii.gz dice=0.0020
+[2026-04-17 06:17:13,583][Train_Process.py] P153_lower_img.nii.gz dice=0.0018
+[2026-04-17 06:17:20,938][Train_Process.py] P154_lower_img.nii.gz dice=0.0013
+[2026-04-17 06:17:46,922][Train_Process.py] P155_lower_img.nii.gz dice=0.0019
+[2026-04-17 06:18:13,782][Train_Process.py] P156_lower_img.nii.gz dice=0.0025
+[2026-04-17 06:18:45,398][Train_Process.py] P157_lower_img.nii.gz dice=0.0013
+[2026-04-17 06:18:56,211][Train_Process.py] P158_lower_img.nii.gz dice=0.0015
+[2026-04-17 06:19:03,724][Train_Process.py] P159_lower_img.nii.gz dice=0.0009
+[2026-04-17 06:19:18,974][Train_Process.py] P160_lower_img.nii.gz dice=0.0019
+[2026-04-17 06:19:32,647][Train_Process.py] P161_lower_img.nii.gz dice=0.0022
+[2026-04-17 06:19:46,407][Train_Process.py] P162_lower_img.nii.gz dice=0.0018
+[2026-04-17 06:20:01,509][Train_Process.py] P163_lower_img.nii.gz dice=0.0017
+[2026-04-17 06:20:15,505][Train_Process.py] P164_lower_img.nii.gz dice=0.0018
+[2026-04-17 06:20:27,731][Train_Process.py] P165_lower_img.nii.gz dice=0.0018
+[2026-04-17 06:20:54,071][Train_Process.py] P166_lower_img.nii.gz dice=0.0025
+[2026-04-17 06:21:08,442][Train_Process.py] P167_lower_img.nii.gz dice=0.0018
+[2026-04-17 06:21:27,890][Train_Process.py] P168_lower_img.nii.gz dice=0.0022
+[2026-04-17 06:21:40,793][Train_Process.py] P169_lower_img.nii.gz dice=0.0022
+[2026-04-17 06:21:56,145][Train_Process.py] P170_lower_img.nii.gz dice=0.0012
+[2026-04-17 06:22:02,964][Train_Process.py] P171_lower_img.nii.gz dice=0.0021
+[2026-04-17 06:22:18,057][Train_Process.py] P172_lower_img.nii.gz dice=0.0017
+[2026-04-17 06:22:18,108][Train_Process.py] Epoch:[130/150]  lr=0.000021  loss=0.34446  dice_e=0.7043 max_dice=0.0019
+[2026-04-17 06:42:05,778][Train_Process.py] Epoch:[131/150]  lr=0.000021  loss=0.40035  dice_e=0.6404 max_dice=0.0019
+[2026-04-17 07:02:51,583][Train_Process.py] Epoch:[132/150]  lr=0.000021  loss=0.32198  dice_e=0.7205 max_dice=0.0019
+[2026-04-17 07:21:40,225][Train_Process.py] Epoch:[133/150]  lr=0.000021  loss=0.36353  dice_e=0.6765 max_dice=0.0019
+[2026-04-17 07:41:26,231][Train_Process.py] Epoch:[134/150]  lr=0.000021  loss=0.31220  dice_e=0.7279 max_dice=0.0019
+[2026-04-17 07:59:41,088][Train_Process.py] Epoch:[135/150]  lr=0.000021  loss=0.32335  dice_e=0.7128 max_dice=0.0019
+[2026-04-17 08:16:30,968][Train_Process.py] Epoch:[136/150]  lr=0.000017  loss=0.32951  dice_e=0.7249 max_dice=0.0019
+[2026-04-17 08:35:06,866][Train_Process.py] Epoch:[137/150]  lr=0.000017  loss=0.33022  dice_e=0.7076 max_dice=0.0019
+[2026-04-17 08:53:36,553][Train_Process.py] Epoch:[138/150]  lr=0.000017  loss=0.33405  dice_e=0.7079 max_dice=0.0019
+[2026-04-17 09:09:39,994][Train_Process.py] Epoch:[139/150]  lr=0.000017  loss=0.33149  dice_e=0.7026 max_dice=0.0019
+[2026-04-17 10:01:30,297][Train_Process.py] P135_lower_img.nii.gz dice=0.0014
+[2026-04-17 10:01:37,129][Train_Process.py] P136_lower_img.nii.gz dice=0.0011
+[2026-04-17 10:01:54,121][Train_Process.py] P137_lower_img.nii.gz dice=0.0012
+[2026-04-17 10:02:03,740][Train_Process.py] P138_lower_img.nii.gz dice=0.0041
+[2026-04-17 10:02:19,093][Train_Process.py] P139_lower_img.nii.gz dice=0.0012
+[2026-04-17 10:02:32,876][Train_Process.py] P140_lower_img.nii.gz dice=0.0014
+[2026-04-17 10:03:01,505][Train_Process.py] P141_lower_img.nii.gz dice=0.0014
+[2026-04-17 10:03:12,544][Train_Process.py] P142_lower_img.nii.gz dice=0.0017
+[2026-04-17 10:03:26,034][Train_Process.py] P143_lower_img.nii.gz dice=0.0017
+[2026-04-17 10:03:42,647][Train_Process.py] P144_lower_img.nii.gz dice=0.0022
+[2026-04-17 10:04:09,183][Train_Process.py] P145_lower_img.nii.gz dice=0.0016
+[2026-04-17 10:04:35,685][Train_Process.py] P146_lower_img.nii.gz dice=0.0015
+[2026-04-17 10:04:42,876][Train_Process.py] P147_lower_img.nii.gz dice=0.0016
+[2026-04-17 10:05:12,642][Train_Process.py] P148_lower_img.nii.gz dice=0.0020
+[2026-04-17 10:05:26,002][Train_Process.py] P149_lower_img.nii.gz dice=0.0021
+[2026-04-17 10:05:41,385][Train_Process.py] P150_lower_img.nii.gz dice=0.0037
+[2026-04-17 10:05:55,936][Train_Process.py] P151_lower_img.nii.gz dice=0.0018
+[2026-04-17 10:06:11,496][Train_Process.py] P152_lower_img.nii.gz dice=0.0022
+[2026-04-17 10:06:18,543][Train_Process.py] P153_lower_img.nii.gz dice=0.0020
+[2026-04-17 10:06:25,862][Train_Process.py] P154_lower_img.nii.gz dice=0.0014
+[2026-04-17 10:06:51,734][Train_Process.py] P155_lower_img.nii.gz dice=0.0021
+[2026-04-17 10:07:17,792][Train_Process.py] P156_lower_img.nii.gz dice=0.0028
+[2026-04-17 10:07:53,043][Train_Process.py] P157_lower_img.nii.gz dice=0.0015
+[2026-04-17 10:08:03,946][Train_Process.py] P158_lower_img.nii.gz dice=0.0017
+[2026-04-17 10:08:11,620][Train_Process.py] P159_lower_img.nii.gz dice=0.0009
+[2026-04-17 10:08:27,180][Train_Process.py] P160_lower_img.nii.gz dice=0.0021
+[2026-04-17 10:08:41,061][Train_Process.py] P161_lower_img.nii.gz dice=0.0024
+[2026-04-17 10:08:55,144][Train_Process.py] P162_lower_img.nii.gz dice=0.0021
+[2026-04-17 10:09:10,086][Train_Process.py] P163_lower_img.nii.gz dice=0.0019
+[2026-04-17 10:09:24,305][Train_Process.py] P164_lower_img.nii.gz dice=0.0020
+[2026-04-17 10:09:36,587][Train_Process.py] P165_lower_img.nii.gz dice=0.0021
+[2026-04-17 10:10:03,379][Train_Process.py] P166_lower_img.nii.gz dice=0.0029
+[2026-04-17 10:10:17,866][Train_Process.py] P167_lower_img.nii.gz dice=0.0020
+[2026-04-17 10:10:38,329][Train_Process.py] P168_lower_img.nii.gz dice=0.0025
+[2026-04-17 10:10:51,487][Train_Process.py] P169_lower_img.nii.gz dice=0.0025
+[2026-04-17 10:11:07,135][Train_Process.py] P170_lower_img.nii.gz dice=0.0013
+[2026-04-17 10:11:13,882][Train_Process.py] P171_lower_img.nii.gz dice=0.0023
+[2026-04-17 10:11:29,069][Train_Process.py] P172_lower_img.nii.gz dice=0.0019
+[2026-04-17 10:11:30,334][Train_Process.py] Epoch:[140/150]  lr=0.000017  loss=0.33469  dice_e=0.7034 max_dice=0.0020
+[2026-04-17 10:26:50,788][Train_Process.py] Epoch:[141/150]  lr=0.000017  loss=0.33993  dice_e=0.6986 max_dice=0.0020
+[2026-04-17 10:41:57,047][Train_Process.py] Epoch:[142/150]  lr=0.000017  loss=0.32199  dice_e=0.7282 max_dice=0.0020
+[2026-04-17 11:00:59,373][Train_Process.py] Epoch:[143/150]  lr=0.000017  loss=0.31071  dice_e=0.7241 max_dice=0.0020
+[2026-04-17 11:18:17,878][Train_Process.py] Epoch:[144/150]  lr=0.000017  loss=0.31262  dice_e=0.7302 max_dice=0.0020
+[2026-04-17 11:33:58,393][Train_Process.py] Epoch:[145/150]  lr=0.000017  loss=0.33069  dice_e=0.7234 max_dice=0.0020
+[2026-04-17 11:52:34,323][Train_Process.py] Epoch:[146/150]  lr=0.000017  loss=0.34763  dice_e=0.6924 max_dice=0.0020
+[2026-04-17 12:07:30,107][Train_Process.py] Epoch:[147/150]  lr=0.000013  loss=0.36125  dice_e=0.6898 max_dice=0.0020
+[2026-04-17 12:25:18,532][Train_Process.py] Epoch:[148/150]  lr=0.000013  loss=0.33065  dice_e=0.7098 max_dice=0.0020
+[2026-04-17 12:44:38,432][Train_Process.py] Epoch:[149/150]  lr=0.000013  loss=0.32939  dice_e=0.7053 max_dice=0.0020
+[2026-04-17 13:44:26,801][Train_Process.py] P135_lower_img.nii.gz dice=0.0015
+[2026-04-17 13:44:33,578][Train_Process.py] P136_lower_img.nii.gz dice=0.0012
+[2026-04-17 13:44:49,988][Train_Process.py] P137_lower_img.nii.gz dice=0.0012
+[2026-04-17 13:44:59,450][Train_Process.py] P138_lower_img.nii.gz dice=0.0042
+[2026-04-17 13:45:14,085][Train_Process.py] P139_lower_img.nii.gz dice=0.0012
+[2026-04-17 13:45:27,900][Train_Process.py] P140_lower_img.nii.gz dice=0.0014
+[2026-04-17 13:45:56,511][Train_Process.py] P141_lower_img.nii.gz dice=0.0013
+[2026-04-17 13:46:07,611][Train_Process.py] P142_lower_img.nii.gz dice=0.0017
+[2026-04-17 13:46:21,150][Train_Process.py] P143_lower_img.nii.gz dice=0.0017
+[2026-04-17 13:46:37,785][Train_Process.py] P144_lower_img.nii.gz dice=0.0023
+[2026-04-17 13:47:04,365][Train_Process.py] P145_lower_img.nii.gz dice=0.0017
+[2026-04-17 13:47:32,038][Train_Process.py] P146_lower_img.nii.gz dice=0.0015
+[2026-04-17 13:47:39,279][Train_Process.py] P147_lower_img.nii.gz dice=0.0017
+[2026-04-17 13:48:08,262][Train_Process.py] P148_lower_img.nii.gz dice=0.0020
+[2026-04-17 13:48:21,359][Train_Process.py] P149_lower_img.nii.gz dice=0.0022
+[2026-04-17 13:48:36,475][Train_Process.py] P150_lower_img.nii.gz dice=0.0039
+[2026-04-17 13:48:50,776][Train_Process.py] P151_lower_img.nii.gz dice=0.0020
+[2026-04-17 13:49:06,322][Train_Process.py] P152_lower_img.nii.gz dice=0.0023
+[2026-04-17 13:49:13,285][Train_Process.py] P153_lower_img.nii.gz dice=0.0020
+[2026-04-17 13:49:20,557][Train_Process.py] P154_lower_img.nii.gz dice=0.0015
+[2026-04-17 13:49:46,374][Train_Process.py] P155_lower_img.nii.gz dice=0.0022
+[2026-04-17 13:50:12,646][Train_Process.py] P156_lower_img.nii.gz dice=0.0028
+[2026-04-17 13:50:45,804][Train_Process.py] P157_lower_img.nii.gz dice=0.0016
+[2026-04-17 13:50:56,561][Train_Process.py] P158_lower_img.nii.gz dice=0.0017
+[2026-04-17 13:51:04,101][Train_Process.py] P159_lower_img.nii.gz dice=0.0010
+[2026-04-17 13:51:19,328][Train_Process.py] P160_lower_img.nii.gz dice=0.0022
+[2026-04-17 13:51:33,057][Train_Process.py] P161_lower_img.nii.gz dice=0.0025
+[2026-04-17 13:51:46,836][Train_Process.py] P162_lower_img.nii.gz dice=0.0021
+[2026-04-17 13:52:01,594][Train_Process.py] P163_lower_img.nii.gz dice=0.0021
+[2026-04-17 13:52:15,689][Train_Process.py] P164_lower_img.nii.gz dice=0.0021
+[2026-04-17 13:52:27,943][Train_Process.py] P165_lower_img.nii.gz dice=0.0020
+[2026-04-17 13:52:54,298][Train_Process.py] P166_lower_img.nii.gz dice=0.0029
+[2026-04-17 13:53:09,308][Train_Process.py] P167_lower_img.nii.gz dice=0.0022
+[2026-04-17 13:53:28,910][Train_Process.py] P168_lower_img.nii.gz dice=0.0025
+[2026-04-17 13:53:41,938][Train_Process.py] P169_lower_img.nii.gz dice=0.0026
+[2026-04-17 13:53:58,035][Train_Process.py] P170_lower_img.nii.gz dice=0.0014
+[2026-04-17 13:54:04,787][Train_Process.py] P171_lower_img.nii.gz dice=0.0025
+[2026-04-17 13:54:21,863][Train_Process.py] P172_lower_img.nii.gz dice=0.0020
+[2026-04-17 13:54:23,139][Train_Process.py] Epoch:[150/150]  lr=0.000013  loss=0.34607  dice_e=0.6936 max_dice=0.0020
+[2026-04-17 13:54:23,446][Train_Process.py] finish training!
+[2026-04-17 13:54:23,455][Train_Process.py] start Predict!
+[2026-04-17 14:32:38,400][Train_Process.py] P135_lower_img.nii.gz dice=0.0015
+[2026-04-17 14:32:45,217][Train_Process.py] P136_lower_img.nii.gz dice=0.0012
+[2026-04-17 14:33:01,796][Train_Process.py] P137_lower_img.nii.gz dice=0.0012
+[2026-04-17 14:33:11,280][Train_Process.py] P138_lower_img.nii.gz dice=0.0042
+[2026-04-17 14:33:26,027][Train_Process.py] P139_lower_img.nii.gz dice=0.0012
+[2026-04-17 14:33:39,955][Train_Process.py] P140_lower_img.nii.gz dice=0.0014
+[2026-04-17 14:34:08,802][Train_Process.py] P141_lower_img.nii.gz dice=0.0013
+[2026-04-17 14:34:19,935][Train_Process.py] P142_lower_img.nii.gz dice=0.0017
+[2026-04-17 14:34:33,706][Train_Process.py] P143_lower_img.nii.gz dice=0.0017
+[2026-04-17 14:34:50,632][Train_Process.py] P144_lower_img.nii.gz dice=0.0023
+[2026-04-17 14:35:17,319][Train_Process.py] P145_lower_img.nii.gz dice=0.0017
+[2026-04-17 14:35:44,068][Train_Process.py] P146_lower_img.nii.gz dice=0.0015
+[2026-04-17 14:35:51,422][Train_Process.py] P147_lower_img.nii.gz dice=0.0017
+[2026-04-17 14:36:20,821][Train_Process.py] P148_lower_img.nii.gz dice=0.0020
+[2026-04-17 14:36:34,630][Train_Process.py] P149_lower_img.nii.gz dice=0.0022
+[2026-04-17 14:36:49,921][Train_Process.py] P150_lower_img.nii.gz dice=0.0039
+[2026-04-17 14:37:04,439][Train_Process.py] P151_lower_img.nii.gz dice=0.0020
+[2026-04-17 14:37:19,793][Train_Process.py] P152_lower_img.nii.gz dice=0.0023
+[2026-04-17 14:37:26,794][Train_Process.py] P153_lower_img.nii.gz dice=0.0020
+[2026-04-17 14:37:34,105][Train_Process.py] P154_lower_img.nii.gz dice=0.0015
+[2026-04-17 14:37:59,877][Train_Process.py] P155_lower_img.nii.gz dice=0.0022
+[2026-04-17 14:38:25,959][Train_Process.py] P156_lower_img.nii.gz dice=0.0028
+[2026-04-17 14:38:58,013][Train_Process.py] P157_lower_img.nii.gz dice=0.0016
+[2026-04-17 14:39:08,839][Train_Process.py] P158_lower_img.nii.gz dice=0.0017
+[2026-04-17 14:39:16,380][Train_Process.py] P159_lower_img.nii.gz dice=0.0010
+[2026-04-17 14:39:32,230][Train_Process.py] P160_lower_img.nii.gz dice=0.0022
+[2026-04-17 14:39:45,868][Train_Process.py] P161_lower_img.nii.gz dice=0.0025
+[2026-04-17 14:39:59,647][Train_Process.py] P162_lower_img.nii.gz dice=0.0021
+[2026-04-17 14:40:14,181][Train_Process.py] P163_lower_img.nii.gz dice=0.0021
+[2026-04-17 14:40:28,334][Train_Process.py] P164_lower_img.nii.gz dice=0.0021
+[2026-04-17 14:40:40,569][Train_Process.py] P165_lower_img.nii.gz dice=0.0020
+[2026-04-17 14:41:07,046][Train_Process.py] P166_lower_img.nii.gz dice=0.0029
+[2026-04-17 14:41:21,517][Train_Process.py] P167_lower_img.nii.gz dice=0.0022
+[2026-04-17 14:41:41,002][Train_Process.py] P168_lower_img.nii.gz dice=0.0025
+[2026-04-17 14:41:54,007][Train_Process.py] P169_lower_img.nii.gz dice=0.0026
+[2026-04-17 14:42:09,443][Train_Process.py] P170_lower_img.nii.gz dice=0.0014
+[2026-04-17 14:42:16,761][Train_Process.py] P171_lower_img.nii.gz dice=0.0025
+[2026-04-17 14:42:32,050][Train_Process.py] P172_lower_img.nii.gz dice=0.0020
+[2026-04-17 14:42:32,085][Train_Process.py] dice_mean=0.0020 
+[2026-04-17 14:42:32,085][Train_Process.py] finish Predict!
